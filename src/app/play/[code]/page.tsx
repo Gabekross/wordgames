@@ -136,7 +136,7 @@ export default function PlayPuzzlePage() {
   if (error) return <p style={{ color: 'red' }}>{error}</p>
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className="puzzle-page-wrapper">
       {!submittedName ? (
         <>
           <h2>{puzzle!.name}</h2>
