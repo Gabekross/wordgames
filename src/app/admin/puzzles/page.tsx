@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { generatePuzzleGrid } from '@/utils/generatePuzzleGrid'
 import Link from 'next/link'
 
 export default function AdminDashboardPage() {
   const [puzzles, setPuzzles] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {

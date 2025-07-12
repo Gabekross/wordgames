@@ -8,8 +8,6 @@ import PuzzleGrid from '@/components/PuzzleGrid'
 export default function PlayPuzzlePage() {
   const params = useParams()
   const code = Array.isArray(params?.code) ? params.code[0] : params?.code
-  const router = useRouter()
-
   const [name, setName] = useState('')
   const [submittedName, setSubmittedName] = useState(false)
   const [puzzle, setPuzzle] = useState<any>(null)
