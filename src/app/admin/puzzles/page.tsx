@@ -121,7 +121,7 @@ const [puzzles, setPuzzles] = useState<PuzzleWithSessions[]>([])
               <div style={{ marginTop: '1rem' }}>
                 <strong>🏁 Leaderboard:</strong>
                 <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                  {puzzle.leaderboard.map((entry: any, i: number) => (
+                  {puzzle.leaderboard.map((entry, i) => (
                     <li
                       key={i}
                       style={{
@@ -131,17 +131,23 @@ const [puzzles, setPuzzles] = useState<PuzzleWithSessions[]>([])
                     >
                       {i === 0 && '🥇 '}
                       {entry.player_name} — {(() => {
-  const parsed = typeof entry.duration === 'string' && entry.duration.includes(':')
-    ? (() => {
-        const [hh = '0', mm = '0', ss = '0'] = entry.duration.split(':');
-        return parseInt(hh) * 3600 + parseInt(mm) * 60 + parseFloat(ss);
-      })()
-    : parseFloat(entry.duration);
-  if (isNaN(parsed)) return '—';
+  const duration: string = entry.duration ?? '';
+  let parsed = 0;
+
+  if (duration.includes(':')) {
+    const [hh = '0', mm = '0', ss = '0'] = duration.split(':');
+    parsed = parseInt(hh) * 3600 + parseInt(mm) * 60 + parseFloat(ss);
+  } else {
+    parsed = parseFloat(duration);
+  }
+
+  if (isNaN(parsed) || parsed <= 0) return '—';
+
   const minutes = Math.floor(parsed / 60);
   const seconds = Math.floor(parsed % 60);
   return `${minutes}:${seconds.toString().padStart(2, '0')} min (${parsed.toFixed(1)}s)`;
 })()}
+
                     </li>
                   ))}
                 </ul>
@@ -152,7 +158,7 @@ const [puzzles, setPuzzles] = useState<PuzzleWithSessions[]>([])
               <div style={{ marginTop: '1rem' }}>
                 <strong>⏳ In Progress:</strong>
                 <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                  {puzzle.inProgress.map((entry: any, i: number) => {
+                  {puzzle.inProgress.map((entry, i: number) => {
                     const startTime = entry.start_time || entry.inserted_at || ''
                     const stuck = isPlayerStuck(startTime)
 
