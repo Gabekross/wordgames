@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import '@/styles/PuzzleGrid.scss'
 
 type PuzzleGridProps = {
@@ -21,9 +21,27 @@ export default function PuzzleGrid({
   const [selectedPath, setSelectedPath] = useState<[number, number][]>([])
   const [isSelecting, setIsSelecting] = useState(false)
   const [solvedPaths, setSolvedPaths] = useState<[number, number][][]>([])
+  const gridRef = useRef<HTMLDivElement>(null)
 
   const wordString = (path: [number, number][]) =>
     path.map(([r, c]) => grid[r][c]).join('')
+
+  const isStraightLine = (path: [number, number][]) => {
+    if (path.length < 2) return true
+    const [r0, c0] = path[0]
+    const [r1, c1] = path[1]
+    const dr = r1 - r0
+    const dc = c1 - c0
+
+    for (let i = 1; i < path.length - 1; i++) {
+      const [r2, c2] = path[i]
+      const [r3, c3] = path[i + 1]
+      if (r3 - r2 !== dr || c3 - c2 !== dc) {
+        return false
+      }
+    }
+    return true
+  }
 
   const handlePointerDown = (r: number, c: number) => {
     if (disabled) return
@@ -41,6 +59,13 @@ export default function PuzzleGrid({
 
   const handlePointerUp = () => {
     if (!isSelecting) return
+
+    if (!isStraightLine(selectedPath)) {
+      setIsSelecting(false)
+      setSelectedPath([])
+      return
+    }
+
     const selectedWord = wordString(selectedPath)
     const reversed = selectedWord.split('').reverse().join('')
 
@@ -65,8 +90,32 @@ export default function PuzzleGrid({
       path.some(([row, col]) => row === r && col === c)
     )
 
+  // Pointer move tracking for mobile
+  useEffect(() => {
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!isSelecting || disabled) return
+      const target = document.elementFromPoint(e.clientX, e.clientY)
+      if (
+        target instanceof HTMLElement &&
+        target.dataset.row &&
+        target.dataset.col
+      ) {
+        const r = parseInt(target.dataset.row)
+        const c = parseInt(target.dataset.col)
+        handlePointerEnter(r, c)
+      }
+    }
+
+    const gridEl = gridRef.current
+    gridEl?.addEventListener('pointermove', handlePointerMove)
+
+    return () => {
+      gridEl?.removeEventListener('pointermove', handlePointerMove)
+    }
+  }, [isSelecting, disabled, selectedPath])
+
   return (
-    <div className="puzzle-grid" onMouseLeave={handlePointerUp}>
+    <div className="puzzle-grid" ref={gridRef} onPointerUp={handlePointerUp}>
       {grid.map((row, rowIndex) => (
         <div className="puzzle-row" key={rowIndex}>
           {row.map((letter, colIndex) => {
@@ -81,17 +130,11 @@ export default function PuzzleGrid({
                 } ${isSelected ? 'selected' : ''} ${
                   isSolved ? 'solved' : ''
                 }`}
+                data-row={rowIndex}
+                data-col={colIndex}
                 onPointerDown={(e) => {
-                  e.preventDefault();
-                  handlePointerDown(rowIndex, colIndex);
-                }}
-                onPointerEnter={(e) => {
-                  e.preventDefault();
-                  handlePointerEnter(rowIndex, colIndex);
-                }}
-                onPointerUp={(e) => {
-                  e.preventDefault();
-                  handlePointerUp();
+                  e.preventDefault()
+                  handlePointerDown(rowIndex, colIndex)
                 }}
               >
                 {letter}

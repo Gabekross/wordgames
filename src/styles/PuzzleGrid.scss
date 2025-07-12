@@ -1,34 +1,18 @@
-// .puzzle-grid {
-//   display: inline-block;
-//   border: 2px solid black;
-//   margin-top: 1rem;
-//   user-select: none;
-//   -webkit-user-select: none;
-//   touch-action: none; // Prevent scrolling interference
-// }
+.puzzle-page-wrapper {
+  background: linear-gradient(to bottom right, #e6f4ec, #fefae0);
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-
-// .puzzle-row {
-//   display: flex;
-// }
-
-// .puzzle-cell {
-//   width: 2.5rem;
-//   height: 2.5rem;
-//   font-size: 1.2rem;
-//   background: #f1f1f1;
-//   border: 1px solid black;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   user-select: none;
-//   font-weight: bold;
-//   transition: background 0.2s;
-// }
 .puzzle-grid {
   display: inline-block;
-  max-width: 100%;
-  margin: 0 auto;
+  border: 2px solid black;
+  margin-top: 1rem;
+  user-select: none;
   touch-action: none;
 }
 
@@ -37,36 +21,50 @@
 }
 
 .puzzle-cell {
-  flex: 1 1 auto;
-  aspect-ratio: 1;
-  text-align: center;
-  font-size: clamp(12px, 2.5vw, 24px);
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  border: 1px solid black;
-  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1px;
+  border-radius: 0.5rem;
+  color: #fff;
+  background: #8bc34a; /* fallback */
+  transition: background 0.2s, transform 0.2s;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  /* Optional randomized colors */
+  &:nth-child(5n+1) { background: #ec407a; }
+  &:nth-child(5n+2) { background: #42a5f5; }
+  &:nth-child(5n+3) { background: #66bb6a; }
+  &:nth-child(5n+4) { background: #ffee58; color: #333; }
+  &:nth-child(5n+5) { background: #ab47bc; }
 }
+
 .puzzle-cell.disabled {
-  background: #ddd;
-  color: #aaa;
+  background: #bbb !important;
+  color: #888;
 }
 
 .puzzle-cell.selected {
-  background: #7cd0f9;
-  color: white;
+  border: 2px solid #222;
+  background: #000 !important;
+  color: #fff;
 }
 
 .puzzle-cell.solved {
-  background: #ccc;
-  color: #333;
-  font-weight: bold;
+  background: #4caf50 !important;
+  color: #fff;
 }
 
-
-/* Responsive */
+/* Responsive (same size but mobile friendly) */
 @media (max-width: 600px) {
   .puzzle-cell {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.1rem;
   }
 }
