@@ -5,8 +5,30 @@ import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
 
 export default function AdminDashboardPage() {
-  const [puzzles, setPuzzles] = useState<any[]>([])
   const [error, setError] = useState('')
+
+  type GameSession = {
+  player_name: string
+  duration?: string
+  solved_words?: string[]
+  start_time?: string
+  inserted_at?: string
+}
+
+type PuzzleWithSessions = {
+  id: string
+  name: string
+  code: string
+  category?: string
+  words: string[]
+  is_active: boolean
+  show_solutions: boolean
+  leaderboard: GameSession[]
+  inProgress: GameSession[]
+}
+
+const [puzzles, setPuzzles] = useState<PuzzleWithSessions[]>([])
+
 
   useEffect(() => {
     fetchPuzzles()

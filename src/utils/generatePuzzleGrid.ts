@@ -20,7 +20,7 @@ const DIAGONALS: Direction[] = [
 ]
 
 function getAllDirections(options: GridOptions): Direction[] {
-  let dirs = [...DIRECTIONS]
+  const dirs = [...DIRECTIONS]
   if (options.allowDiagonal) dirs.push(...DIAGONALS)
   return dirs
 }
@@ -49,7 +49,7 @@ function tryPlaceWord(
 
   for (let row = 0; row < size; row++) {
     for (let col = 0; col < size; col++) {
-      for (let [dx, dy] of directions) {
+      for (const [dx, dy] of directions) {
         let r = row
         let c = col
         let fits = true
@@ -96,7 +96,7 @@ export function generatePuzzleGrid(
 
   const sortedWords = shuffle(words).sort((a, b) => b.length - a.length)
 
-  for (let word of sortedWords) {
+  for (const word of sortedWords) {
     const placed = tryPlaceWord(grid, word, options)
     if (!placed) {
       return {
