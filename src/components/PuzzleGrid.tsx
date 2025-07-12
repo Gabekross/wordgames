@@ -1,8 +1,7 @@
 'use client'
 
-import {useState} from 'react'
+import { useState } from 'react'
 import '@/styles/PuzzleGrid.scss'
-
 
 type PuzzleGridProps = {
   grid: string[][]
@@ -11,7 +10,6 @@ type PuzzleGridProps = {
   disabled?: boolean
   onWordFound?: (word: string) => void
 }
-
 
 export default function PuzzleGrid({
   grid,
@@ -28,13 +26,13 @@ export default function PuzzleGrid({
     path.map(([r, c]) => grid[r][c]).join('')
 
   const handlePointerDown = (r: number, c: number) => {
-    if (disabled || isCellSolved(r, c)) return
+    if (disabled) return
     setSelectedPath([[r, c]])
     setIsSelecting(true)
   }
 
   const handlePointerEnter = (r: number, c: number) => {
-    if (!isSelecting || disabled || isCellSolved(r, c)) return
+    if (!isSelecting || disabled) return
     const last = selectedPath[selectedPath.length - 1]
     if (last && (last[0] !== r || last[1] !== c)) {
       setSelectedPath((prev) => [...prev, [r, c]])
@@ -45,16 +43,15 @@ export default function PuzzleGrid({
     if (!isSelecting) return
     const selectedWord = wordString(selectedPath)
     const reversed = selectedWord.split('').reverse().join('')
-    
+
     const match = [selectedWord, reversed].find(
-     (w) => words.includes(w) && !solvedWords.includes(w)
+      (w) => words.includes(w) && !solvedWords.includes(w)
     )
 
     if (match && onWordFound) {
-    onWordFound(match)
-    setSolvedPaths((prev) => [...prev, [...selectedPath]])
+      onWordFound(match)
+      setSolvedPaths((prev) => [...prev, [...selectedPath]])
     }
-
 
     setIsSelecting(false)
     setSelectedPath([])
