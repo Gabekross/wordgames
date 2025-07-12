@@ -9,34 +9,38 @@
   color: #222;
 }
 
+/* Updated to use grid layout */
 .puzzle-grid {
-  display: inline-block;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2.5rem, 1fr));
+  gap: 4px;
+  justify-content: center;
   margin-top: 1rem;
   user-select: none;
   touch-action: none;
+  max-width: 90vw;
 }
 
-.puzzle-row {
-  display: flex;
-}
+/* Removed .puzzle-row – not needed with grid layout */
 
+/* Colorful and scalable cells */
 .puzzle-cell {
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1.2rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  font-size: clamp(14px, 5vw, 1.3rem);
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2px;
   border-radius: 0.6rem;
   color: #fff;
   background-color: #42a5f5;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease-in-out;
   border: none;
+  text-align: center;
 
-  // Random colors (for variety)
+  // Color variety
   &:nth-child(5n+1) { background-color: #ec407a; }
   &:nth-child(5n+2) { background-color: #42a5f5; }
   &:nth-child(5n+3) { background-color: #66bb6a; }
@@ -44,6 +48,7 @@
   &:nth-child(5n+5) { background-color: #ab47bc; }
 }
 
+/* States */
 .puzzle-cell.disabled {
   background-color: #ccc !important;
   color: #999;
@@ -62,10 +67,10 @@
   font-weight: bold;
 }
 
-@media (max-width: 600px) {
+/* Optional: override for extra small screens if needed
+@media (max-width: 400px) {
   .puzzle-cell {
-    width: 2.2rem;
-    height: 2.2rem;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 }
+*/
