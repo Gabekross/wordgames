@@ -56,8 +56,10 @@
 }
 
 .puzzle-cell.solved {
-  background-color: #4caf50 !important;
+  background-color: #13ee42 !important;
   color: #fff;
+  text-decoration: line-through;
+  font-weight: bold;
 }
 
 @media (max-width: 600px) {
