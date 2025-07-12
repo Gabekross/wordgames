@@ -1,0 +1,53 @@
+.puzzle-grid {
+  display: inline-block;
+  border: 2px solid black;
+  margin-top: 1rem;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none; // Prevent scrolling interference
+}
+
+
+.puzzle-row {
+  display: flex;
+}
+
+.puzzle-cell {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.2rem;
+  background: #f1f1f1;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.puzzle-cell.disabled {
+  background: #ddd;
+  color: #aaa;
+}
+
+.puzzle-cell.selected {
+  background: #7cd0f9;
+  color: white;
+}
+
+.puzzle-cell.solved {
+  background: #ccc;
+  color: #333;
+  font-weight: bold;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  .puzzle-cell {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+  }
+}
