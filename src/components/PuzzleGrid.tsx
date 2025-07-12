@@ -81,9 +81,18 @@ export default function PuzzleGrid({
                 } ${isSelected ? 'selected' : ''} ${
                   isSolved ? 'solved' : ''
                 }`}
-                onPointerDown={() => handlePointerDown(rowIndex, colIndex)}
-                onPointerEnter={() => handlePointerEnter(rowIndex, colIndex)}
-                onPointerUp={handlePointerUp}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  handlePointerDown(rowIndex, colIndex);
+                }}
+                onPointerEnter={(e) => {
+                  e.preventDefault();
+                  handlePointerEnter(rowIndex, colIndex);
+                }}
+                onPointerUp={(e) => {
+                  e.preventDefault();
+                  handlePointerUp();
+                }}
               >
                 {letter}
               </div>

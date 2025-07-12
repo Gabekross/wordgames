@@ -1,31 +1,50 @@
+// .puzzle-grid {
+//   display: inline-block;
+//   border: 2px solid black;
+//   margin-top: 1rem;
+//   user-select: none;
+//   -webkit-user-select: none;
+//   touch-action: none; // Prevent scrolling interference
+// }
+
+
+// .puzzle-row {
+//   display: flex;
+// }
+
+// .puzzle-cell {
+//   width: 2.5rem;
+//   height: 2.5rem;
+//   font-size: 1.2rem;
+//   background: #f1f1f1;
+//   border: 1px solid black;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   user-select: none;
+//   font-weight: bold;
+//   transition: background 0.2s;
+// }
 .puzzle-grid {
   display: inline-block;
-  border: 2px solid black;
-  margin-top: 1rem;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none; // Prevent scrolling interference
+  max-width: 100%;
+  margin: 0 auto;
+  touch-action: none;
 }
-
 
 .puzzle-row {
   display: flex;
 }
 
 .puzzle-cell {
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1.2rem;
-  background: #f1f1f1;
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
+  flex: 1 1 auto;
+  aspect-ratio: 1;
+  text-align: center;
+  font-size: clamp(12px, 2.5vw, 24px);
   font-weight: bold;
-  transition: background 0.2s;
+  border: 1px solid black;
+  background-color: white;
 }
-
 .puzzle-cell.disabled {
   background: #ddd;
   color: #aaa;
